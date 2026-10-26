@@ -2,9 +2,9 @@
 
 A realistic iOS system-update screen with an animated progress ring. Pure HTML/CSS/JS, zero dependencies.
 
-▶ **Live demo:** https://&lt;your-username&gt;.github.io/fake-ios-update/  *(enable GitHub Pages on this repo)*
+▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/mobile/fake-ios-update/
 
-> 💡 Want a GIF here? Record a ~5s screen capture and save it as `demo.gif`.
+![fake iOS update screen](demo.gif)
 
 ## What it does
 

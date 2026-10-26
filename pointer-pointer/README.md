@@ -2,9 +2,9 @@
 
 Move your mouse and **pause** — emojis fly in from the screen edges and **point at your cursor**. A tiny, delightful prank effect. Zero dependencies, pure HTML/CSS/JS.
 
-▶ **Live demo:** https://&lt;your-username&gt;.github.io/pointer-pointer/  *(enable GitHub Pages on this repo, then this URL works)*
+▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/prank/pointer-pointer/
 
-> 💡 Want a GIF in this README? Record a ~5s screen capture of the effect and drop it as `demo.gif` — it'll show right here.
+![Pointer Pointer effect](demo.gif)
 
 ## What it does
 

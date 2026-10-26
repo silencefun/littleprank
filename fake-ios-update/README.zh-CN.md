@@ -2,9 +2,9 @@
 
 一个拟真的 iOS 系统更新界面，带动态进度环。纯 HTML/CSS/JS，零依赖。
 
-▶ **在线演示：** https://&lt;你的用户名&gt;.github.io/fake-ios-update/  *(在本仓库开启 GitHub Pages 后可用)*
+▶ **在线演示（littleprank.com）：** https://littleprank.com/en/tools/mobile/fake-ios-update/
 
-> 💡 想加动图？录一段约 5 秒录屏存为 `demo.gif` 即可。
+![假 iOS 更新界面](demo.gif)
 
 ## 效果说明
 

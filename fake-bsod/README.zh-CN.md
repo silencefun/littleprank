@@ -2,9 +2,9 @@
 
 模拟 Windows 蓝屏死机。选一个错误类型，点 **Start**，看它“崩溃”并显示进度。纯 HTML/CSS/JS，零依赖——二维码是纯 CSS，无需图片。
 
-▶ **在线演示：** https://&lt;你的用户名&gt;.github.io/fake-bsod/  *(在本仓库开启 GitHub Pages 后可用)*
+▶ **在线演示（littleprank.com）：** https://littleprank.com/en/tools/system/fake-bsod/
 
-> 💡 想加动图？录一段约 5 秒录屏存为 `demo.gif` 即可。
+![假蓝屏界面](demo.png)
 
 ## 效果说明
 

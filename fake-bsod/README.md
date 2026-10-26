@@ -2,9 +2,9 @@
 
 A simulated Windows Blue Screen of Death. Pick an error type, hit **Start**, and watch it "crash" with a progress counter. Pure HTML/CSS/JS, zero dependencies — the QR code is pure CSS, no images.
 
-▶ **Live demo:** https://&lt;your-username&gt;.github.io/fake-bsod/  *(enable GitHub Pages on this repo)*
+▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/system/fake-bsod/
 
-> 💡 Want a GIF here? Record a ~5s screen capture and save it as `demo.gif`.
+![fake BSOD screen](demo.png)
 
 ## What it does
 

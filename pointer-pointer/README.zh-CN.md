@@ -2,9 +2,9 @@
 
 移动鼠标并**停顿**，emoji 会从屏幕边缘飞入并**指向**你的光标。一个轻量、好玩的恶搞小效果。零依赖，纯 HTML/CSS/JS。
 
-▶ **在线演示：** https://&lt;你的用户名&gt;.github.io/pointer-pointer/  *(在本仓库开启 GitHub Pages 后此链接即可用)*
+▶ **在线演示（littleprank.com）：** https://littleprank.com/en/tools/prank/pointer-pointer/
 
-> 💡 想给 README 加动图？录一段约 5 秒的效果录屏，存为 `demo.gif`，就会显示在这里。
+![Pointer Pointer 效果](demo.gif)
 
 ## 效果说明
 
