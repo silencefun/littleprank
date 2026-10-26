@@ -38,30 +38,23 @@ MIT。
 
 ## 更多 littleprank.com 一键直达
 
-本仓库只展示其中一个效果——以下是 littleprank.com 同分类下的全部工具，每个链接都直达在线版：
+本仓库展示一个效果，但 littleprank.com 上完整的**手机类**工具如下，每条附一句话说明，点击即可直达在线工具：
 
-- [Fake Ios Update](https://littleprank.com/en/tools/mobile/fake-ios-update/)
-- [Fake Android Update](https://littleprank.com/en/tools/mobile/fake-android-update/)
-- [Fake White Apple](https://littleprank.com/en/tools/mobile/fake-white-apple/)
-- [Fake Battery Damage](https://littleprank.com/en/tools/mobile/fake-battery-damage/)
-- [Fake Fastboot](https://littleprank.com/en/tools/mobile/fake-fastboot/)
-- [Fake System Ui Crash](https://littleprank.com/en/tools/mobile/fake-system-ui-crash/)
-- [Fake Phone Overheat](https://littleprank.com/en/tools/mobile/fake-phone-overheat/)
-- [Fake Sms Bomb](https://littleprank.com/en/tools/mobile/fake-sms-bomb/)
-- [Fake App Badges](https://littleprank.com/en/tools/mobile/fake-app-badges/)
-- [Fake Video Call](https://littleprank.com/en/tools/mobile/fake-video-call/)
-- [Fake Fingerprint](https://littleprank.com/en/tools/mobile/fake-fingerprint/)
-- [Fake Iphone Lock](https://littleprank.com/en/tools/mobile/fake-iphone-lock/)
-- [Fake Call](https://littleprank.com/en/tools/mobile/fake-call/)
-- [Fake Notification](https://littleprank.com/en/tools/mobile/fake-notification/)
-- [Fake Battery](https://littleprank.com/en/tools/mobile/fake-battery/)
-- [Fake Battery Dead](https://littleprank.com/en/tools/mobile/fake-battery-dead/)
-- [Fake Ios Restore](https://littleprank.com/en/tools/mobile/fake-ios-restore/)
-- [Fake Android Flash](https://littleprank.com/en/tools/mobile/fake-android-flash/)
-
----
-
-
----
-
-本仓库是 **[littleprank.com](https://littleprank.com)** 的一个小展示 —— 更多好玩（且无恶意）的效果都在那里。
+- [假 iOS 更新](https://littleprank.com/en/tools/mobile/fake-ios-update/) — 模拟 iPhone/iPad 系统更新界面
+- [假 Android 更新](https://littleprank.com/en/tools/mobile/fake-android-update/) — 模拟 Android 系统更新安装界面
+- [假白苹果修复](https://littleprank.com/en/tools/mobile/fake-white-apple/) — 模拟 iPhone 白苹果刷机卡死
+- [假电池严重损坏](https://littleprank.com/en/tools/mobile/fake-battery-damage/) — 模拟手机电池膨胀警告弹窗
+- [假 Fastboot 刷机](https://littleprank.com/en/tools/mobile/fake-fastboot/) — 模拟安卓线刷模式分区刷写
+- [假系统框架损坏](https://littleprank.com/en/tools/mobile/fake-system-ui-crash/) — 模拟安卓系统 UI 不停崩溃
+- [假手机过热降频](https://littleprank.com/en/tools/mobile/fake-phone-overheat/) — 模拟手机温度飙升强制关机
+- [假短信轰炸](https://littleprank.com/en/tools/mobile/fake-sms-bomb/) — 手机通知栏不间断批量弹出海量短信消息通知
+- [假 App 未读红点](https://littleprank.com/en/tools/mobile/fake-app-badges/) — 屏幕各类应用图标自动生成大量未读红点
+- [假视频通话来电](https://littleprank.com/en/tools/mobile/fake-video-call/) — 模拟 FaceTime 视频通话呼入界面，自带来电铃声
+- [假指纹面容解锁](https://littleprank.com/en/tools/mobile/fake-fingerprint/) — 手机解锁界面，连续识别失败后触发设备锁定
+- [iPhone 已被锁](https://littleprank.com/en/tools/mobile/fake-iphone-lock/) — 模拟 iPhone 停用界面，可自定义锁定时间
+- [假来电](https://littleprank.com/en/tools/mobile/fake-call/) — 模拟手机来电界面，自定义来电人
+- [假通知](https://littleprank.com/en/tools/mobile/fake-notification/) — 生成手机通知弹窗截图
+- [假低电量](https://littleprank.com/en/tools/mobile/fake-battery/) — 模拟手机低电量警告弹窗
+- [假电量耗尽](https://littleprank.com/en/tools/mobile/fake-battery-dead/) — 模拟手机电量耗尽自动关机，黑屏转圈圈充电动画
+- [假 iOS 恢复模式](https://littleprank.com/en/tools/mobile/fake-ios-restore/) — 模拟 iPhone 恢复模式/刷机进度界面
+- [假 Android 刷机](https://littleprank.com/en/tools/mobile/fake-android-flash/) — 模拟 Android 线刷/Recovery 刷机进度
