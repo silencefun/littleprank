@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fake BSOD</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif; background:#222; color:#fff; display:flex; flex-direction:column; align-items:center; min-height:100vh; }
+  h1 { font-size:1.3rem; margin:1.2rem 0 .3rem; }
+  p.sub { color:#bbb; font-size:.85rem; margin:0 0 1rem; text-align:center; }
+  .bsod-controls { background:#1a1a1a; border:1px solid #333; border-radius:12px; padding:1rem; margin-bottom:1rem; display:flex; gap:.75rem; flex-wrap:wrap; align-items:flex-end; }
+  .control-group { display:flex; flex-direction:column; gap:.25rem; }
+  .control-group label { font-size:.75rem; color:#aaa; }
+  .control-group select { background:#2a2a2a; color:#fff; border:1px solid #444; border-radius:8px; padding:.35rem .6rem; font-size:.85rem; }
+  .bsod-controls button { white-space:nowrap; background:#1b1d2e; color:#e8e8f0; border:1px solid #2c2f45; padding:.4rem .8rem; border-radius:8px; cursor:pointer; font-size:.85rem; }
+  .bsod-controls button:hover { background:#262a40; }
+  .bsod-screen { background:#0078d4; min-height:420px; width:min(92vw,720px); display:flex; align-items:center; justify-content:center; border-radius:12px; position:relative; color:#fff; padding:2rem; font-family:"Segoe UI", Roboto, Arial, sans-serif; }
+  .bsod-screen:fullscreen { border-radius:0; min-height:100vh; width:100vw; }
+  .bsod-content { max-width:720px; width:100%; display:flex; flex-direction:column; gap:1.25rem; }
+  .bsod-face { font-size:7rem; font-weight:300; line-height:1; letter-spacing:-.05em; }
+  .bsod-message { font-size:1.4rem; font-weight:400; line-height:1.5; }
+  .bsod-progress-wrap { display:flex; align-items:baseline; gap:.75rem; }
+  .bsod-percent, .bsod-progress-label { font-size:1.6rem; font-weight:300; font-variant-numeric:tabular-nums; }
+  .bsod-stop-code, .bsod-failed-module { font-size:1.05rem; line-height:1.6; }
+  .bsod-stop-code span, .bsod-failed-module span { font-weight:600; }
+  .bsod-qr { display:flex; align-items:flex-start; gap:1rem; margin-top:.5rem; }
+  .bsod-qr-grid { width:96px; height:96px; flex-shrink:0; background-color:#fff; background-image: linear-gradient(45deg,#0078d4 25%,transparent 25%,transparent 75%,#0078d4 75%), linear-gradient(45deg,#0078d4 25%,transparent 25%,transparent 75%,#0078d4 75%); background-size:16px 16px; background-position:0 0,8px 8px; border:8px solid #fff; box-sizing:content-box; }
+  .bsod-qr-hint { font-size:.95rem; line-height:1.5; padding-top:.25rem; }
+  .bsod-screen.idle .bsod-face, .bsod-screen.idle .bsod-message, .bsod-screen.idle .bsod-progress-wrap, .bsod-screen.idle .bsod-stop-code, .bsod-screen.idle .bsod-failed-module, .bsod-screen.idle .bsod-qr { opacity:.35; }
+  .bsod-screen.idle .bsod-content::before { content: attr(data-idle-hint); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.3rem; font-weight:300; opacity:.9; text-align:center; padding:1rem 2rem; border:1px solid rgba(255,255,255,0.4); border-radius:8px; background:rgba(0,0,0,0.15); }
+  footer { margin:1.4rem 0 2rem; text-align:center; color:#aaa; font-size:.85rem; }
+  footer a { color:#66c0f4; text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+  <h1>💻 Fake BSOD</h1>
+  <p class="sub">A simulated Windows Blue Screen of Death — pick an error, watch it "crash".</p>
+  <div class="fake-bsod-container">
+    <div class="bsod-controls" id="bsod-controls">
+      <div class="control-group">
+        <label>Error type</label>
+        <select id="bsod-error-type">
+          <option value="CRITICAL_PROCESS_DIED">CRITICAL_PROCESS_DIED</option>
+          <option value="SYSTEM_SERVICE_EXCEPTION">SYSTEM_SERVICE_EXCEPTION</option>
+          <option value="INACCESSIBLE_BOOT_DEVICE">INACCESSIBLE_BOOT_DEVICE</option>
+          <option value="MEMORY_MANAGEMENT">MEMORY_MANAGEMENT</option>
+        </select>
+      </div>
+      <button id="bsod-start">Start</button>
+      <button id="bsod-reset">Reset</button>
+      <button id="bsod-fullscreen">Fullscreen</button>
+    </div>
+    <div class="bsod-screen idle" id="bsod-screen" data-idle-hint="Click Start to simulate a BSOD">
+      <div class="bsod-content" id="bsod-content">
+        <div class="bsod-face">:(</div>
+        <div class="bsod-message" id="bsod-message">Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</div>
+        <div class="bsod-progress-wrap">
+          <div class="bsod-percent" id="bsod-percent">0%</div>
+          <div class="bsod-progress-label" id="bsod-progress-label">complete</div>
+        </div>
+        <div class="bsod-stop-code">Stop code: <span id="bsod-stop-code-value">CRITICAL_PROCESS_DIED</span></div>
+        <div class="bsod-failed-module">What failed: <span id="bsod-failed-module">ntoskrnl.exe</span></div>
+        <div class="bsod-qr">
+          <div class="bsod-qr-grid"></div>
+          <div class="bsod-qr-hint">For more information about this issue and possible fixes, visit<br><strong>https://www.windows.com/stopcode</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>A tiny prank effect from <a href="https://littleprank.com" target="_blank" rel="noopener">littleprank.com</a> — more playful effects there.</footer>
+<script>
+(function() {
+  var bsodInterval = null, bsodProgress = 0;
+  var failedModules = ['ntoskrnl.exe','win32k.sys','nvlddmkm.sys','ndis.sys','fltmgr.sys','dxgkrnl.sys','tcpip.sys','pagefault.sys'];
+  function startBsod() {
+    var errorType = document.getElementById('bsod-error-type').value;
+    var screen = document.getElementById('bsod-screen');
+    var messageEl = document.getElementById('bsod-message');
+    var percentEl = document.getElementById('bsod-percent');
+    var progressLabelEl = document.getElementById('bsod-progress-label');
+    var stopCodeEl = document.getElementById('bsod-stop-code-value');
+    var failedModuleEl = document.getElementById('bsod-failed-module');
+    screen.classList.remove('idle'); screen.removeAttribute('data-idle-hint');
+    stopCodeEl.textContent = errorType;
+    failedModuleEl.textContent = failedModules[Math.floor(Math.random()*failedModules.length)];
+    messageEl.textContent = 'Your PC ran into a problem and needs to restart. We\'re just collecting some error info, and then we\'ll restart for you.';
+    progressLabelEl.textContent = 'complete';
+    if (bsodInterval) clearInterval(bsodInterval);
+    bsodProgress = 0; percentEl.textContent = '0%';
+    bsodInterval = setInterval(function() {
+      if (bsodProgress < 100) {
+        bsodProgress += Math.random()*4+1;
+        if (bsodProgress > 100) bsodProgress = 100;
+        percentEl.textContent = Math.floor(bsodProgress) + '%';
+      } else {
+        clearInterval(bsodInterval); bsodInterval = null;
+        messageEl.textContent = 'Restarting…';
+        setTimeout(function(){ startBsod(); }, 1800);
+      }
+    }, 180);
+  }
+  function resetBsod() {
+    if (bsodInterval) { clearInterval(bsodInterval); bsodInterval = null; }
+    bsodProgress = 0;
+    var screen = document.getElementById('bsod-screen');
+    var percentEl = document.getElementById('bsod-percent');
+    var messageEl = document.getElementById('bsod-message');
+    var progressLabelEl = document.getElementById('bsod-progress-label');
+    var stopCodeEl = document.getElementById('bsod-stop-code-value');
+    var failedModuleEl = document.getElementById('bsod-failed-module');
+    percentEl.textContent = '0%';
+    messageEl.textContent = 'Your PC ran into a problem and needs to restart. We\'re just collecting some error info, and then we\'ll restart for you.';
+    progressLabelEl.textContent = 'complete';
+    stopCodeEl.textContent = 'CRITICAL_PROCESS_DIED';
+    failedModuleEl.textContent = 'ntoskrnl.exe';
+    screen.classList.add('idle');
+    screen.setAttribute('data-idle-hint','Click Start to simulate a BSOD');
+  }
+  function toggleFullscreen() {
+    var screen = document.getElementById('bsod-screen');
+    if (!document.fullscreenElement) { screen.requestFullscreen && screen.requestFullscreen().catch(function(e){}); } else { document.exitFullscreen(); }
+  }
+  document.getElementById('bsod-start').addEventListener('click', startBsod);
+  document.getElementById('bsod-reset').addEventListener('click', resetBsod);
+  document.getElementById('bsod-fullscreen').addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', function() {
+    var btn = document.getElementById('bsod-fullscreen');
+    if (btn) btn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+  });
+  resetBsod();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fake iOS Update</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background:#111; color:#fff; display:flex; flex-direction:column; align-items:center; min-height:100vh; }
+  h1 { font-size:1.3rem; margin:1.2rem 0 .3rem; }
+  p.sub { color:#9aa; font-size:.85rem; margin:0 0 1rem; text-align:center; }
+  .fiu-screen { background:#000; border-radius:20px; padding:3rem 2rem; text-align:center; color:#fff; min-height:420px; width:min(92vw,420px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+  .fiu-apple { color:#fff; }
+  .fiu-progress-ring { position:relative; width:80px; height:80px; }
+  .fiu-percent { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:600; }
+  .fiu-status { font-size:1rem; opacity:.9; }
+  .fiu-sub { font-size:.75rem; opacity:.5; }
+  .fiu-controls { display:flex; gap:.5rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap; }
+  .fiu-controls button { white-space:nowrap; background:#1b1d2e; color:#e8e8f0; border:1px solid #2c2f45; padding:.4rem .8rem; border-radius:8px; cursor:pointer; font-size:.85rem; }
+  .fiu-controls button:hover { background:#262a40; }
+  .fiu-note { text-align:center; font-size:.7rem; color:#667; margin-top:1rem; }
+  footer { margin:1.4rem 0 2rem; text-align:center; color:#778; font-size:.85rem; }
+  footer a { color:#66c0f4; text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+  <h1>📱 Fake iOS Update</h1>
+  <p class="sub">A realistic iOS system-update screen with an animated progress ring.</p>
+  <div class="fiu-wrap">
+    <div class="fiu-screen" id="fiu-screen">
+      <div class="fiu-apple">
+        <svg width="56" height="68" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
+      </div>
+      <div class="fiu-progress-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="4"/>
+          <circle id="fiu-arc" cx="40" cy="40" r="34" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6" transform="rotate(-90 40 40)"/>
+        </svg>
+        <div class="fiu-percent" id="fiu-percent">0%</div>
+      </div>
+      <div class="fiu-status" id="fiu-status">Updating…</div>
+      <div class="fiu-sub" id="fiu-sub">Estimated remaining: 1 minute</div>
+    </div>
+    <div class="fiu-controls">
+      <button id="fiu-start">Start</button>
+      <button id="fiu-restart">Restart</button>
+      <button id="fiu-fullscreen">Fullscreen</button>
+    </div>
+    <div class="fiu-note">For entertainment only.</div>
+  </div>
+  <footer>A tiny prank effect from <a href="https://littleprank.com" target="_blank" rel="noopener">littleprank.com</a> — more playful effects there.</footer>
+<script>
+(function() {
+  var percent = 0, timer = null;
+  var arc = document.getElementById('fiu-arc');
+  var elPercent = document.getElementById('fiu-percent');
+  var elStatus = document.getElementById('fiu-status');
+  var elSub = document.getElementById('fiu-sub');
+  var CIRC = 213.6;
+  function update() {
+    percent = Math.min(100, percent + Math.random() * 2.5);
+    arc.style.strokeDashoffset = CIRC * (1 - percent / 100);
+    elPercent.textContent = Math.floor(percent) + '%';
+    if (percent >= 100) {
+      clearInterval(timer); timer = null;
+      elStatus.textContent = 'Update complete';
+      elSub.textContent = 'Restarting…';
+    } else {
+      var remaining = Math.ceil((100 - percent) / 100 * 60);
+      elSub.textContent = 'Estimated remaining: ' + remaining + ' minute' + (remaining === 1 ? '' : 's');
+    }
+  }
+  function start() { if (timer) return; percent = 0; elStatus.textContent = 'Updating…'; timer = setInterval(update, 200); }
+  function restart() { if (timer) { clearInterval(timer); timer = null; } percent = 0; arc.style.strokeDashoffset = CIRC; elPercent.textContent = '0%'; elStatus.textContent = 'Updating…'; elSub.textContent = 'Estimated remaining: 1 minute'; start(); }
+  document.getElementById('fiu-start').addEventListener('click', start);
+  document.getElementById('fiu-restart').addEventListener('click', restart);
+  var screenEl = document.getElementById('fiu-screen');
+  var fsBtn = document.getElementById('fiu-fullscreen');
+  if (fsBtn && screenEl) {
+    fsBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement) { screenEl.requestFullscreen && screenEl.requestFullscreen().catch(function(){}); } else { document.exitFullscreen(); }
+    });
+    document.addEventListener('fullscreenchange', function() { fsBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen'; });
+  }
+})();
+</script>
+</body>
+</html>

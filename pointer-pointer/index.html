@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pointer Pointer — emojis that point at your cursor</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #05060f;
+    color: #e8e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  h1 { font-size: 1.4rem; margin: 1.2rem 0 0.2rem; }
+  p.sub { color: #9aa; margin: 0 0 1rem; font-size: 0.9rem; text-align: center; }
+  .pp-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .pp-controls button {
+    background: #1b1d2e; color: #e8e8f0; border: 1px solid #2c2f45;
+    padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+  }
+  .pp-controls button:hover { background: #262a40; }
+  .pp-count { color: #66c0f4; font-size: 0.85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pp-tip { color: #889; font-size: 0.8rem; margin-left: auto; }
+  .pp-stage {
+    position: relative;
+    width: min(92vw, 720px);
+    height: min(70vh, 560px);
+    background: #0c0e1a;
+    border: 1px solid #23263a;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+    touch-action: none;
+  }
+  .pp-emoji {
+    position: absolute; top: 0; left: 0; line-height: 1;
+    will-change: transform, opacity; pointer-events: none; transform-origin: center center;
+  }
+  footer { margin: 1.4rem 0 2rem; text-align: center; color: #778; font-size: 0.85rem; }
+  footer a { color: #66c0f4; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <h1>🖱️ Pointer Pointer</h1>
+  <p class="sub">Move your mouse and pause — emojis fly in from the edges and point at your cursor.</p>
+  <div class="pp-controls">
+    <button id="pp-clear">Clear</button>
+    <button id="pp-fullscreen">Fullscreen</button>
+    <span class="pp-count" id="pp-count">0 / 5</span>
+    <span class="pp-tip">Pause the mouse to spawn an emoji</span>
+  </div>
+  <div class="pp-stage" id="pp-stage"></div>
+  <footer>
+    A tiny prank effect from
+    <a href="https://littleprank.com" target="_blank" rel="noopener">littleprank.com</a>
+    — more playful effects there.
+  </footer>
+
+<script>
+(function () {
+  var stage = document.getElementById('pp-stage');
+  if (!stage) return;
+  var countEl = document.getElementById('pp-count');
+
+  var EMOJIS = ['👆','👇','👈','👉','🐱','🐶','🦊','🐼','🐸','🦉','🐵','🐰','👀','🤔','😎','🥳','👋','🫵','🤙','🙌','✌️','🤞'];
+  var MAX = 5;      // max simultaneous
+  var PAUSE = 300;  // ms of stillness before spawn
+  var LIFE = 2000;  // ms an emoji lives
+  var active = [];
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+  function updateCount() { countEl.textContent = active.length + ' / ' + MAX; }
+
+  function pointAngle(ex, ey, mx, my) {
+    return Math.atan2(my - ey, mx - ex) * 180 / Math.PI;
+  }
+
+  function spawn(mx, my) {
+    if (active.length >= MAX) return;
+    if (fsCooldown) return;
+    var rect = stage.getBoundingClientRect();
+    var sw = rect.width, sh = rect.height;
+    if (sw < 2 || sh < 2) return;
+    var size = rand(40, 80);
+    var tx = mx + rand(-50, 50);
+    var ty = my + rand(-50, 50);
+
+    var edge = (Math.random() * 4) | 0;
+    var sx, sy;
+    if (edge === 0) { sx = rand(0, sw); sy = -size; }
+    else if (edge === 1) { sx = sw + size; sy = rand(0, sh); }
+    else if (edge === 2) { sx = rand(0, sw); sy = sh + size; }
+    else { sx = -size; sy = rand(0, sh); }
+
+    var el = document.createElement('span');
+    el.className = 'pp-emoji';
+    el.textContent = EMOJIS[(Math.random() * EMOJIS.length) | 0];
+    el.style.fontSize = size + 'px';
+
+    var startRot = rand(-180, 180);
+    var endRot = pointAngle(tx, ty, mx, my);
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = 'translate(' + sx + 'px,' + sy + 'px) rotate(' + startRot + 'deg) scale(0.2)';
+    stage.appendChild(el);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        el.style.transition = 'transform 0.55s cubic-bezier(0.2,0.9,0.3,1.3), opacity 0.3s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + endRot + 'deg) scale(1)';
+      });
+    });
+
+    var rec = { el: el };
+    active.push(rec);
+    updateCount();
+    rec.timer = setTimeout(function () { fadeOut(rec); }, LIFE);
+  }
+
+  function fadeOut(rec) {
+    if (rec.timer) { clearTimeout(rec.timer); rec.timer = null; }
+    var el = rec.el;
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    el.style.opacity = '0';
+    var m = el.style.transform.match(/translate\(([^,]+)px,([^,]+)px\)\s*rotate\(([^)]+)deg\)/);
+    if (m) { el.style.transform = 'translate(' + m[1] + 'px,' + m[2] + 'px) rotate(' + m[3] + 'deg) scale(0.5)'; }
+    setTimeout(function () { removeRec(rec); }, 400);
+  }
+
+  function removeRec(rec) {
+    var idx = active.indexOf(rec);
+    if (idx >= 0) active.splice(idx, 1);
+    if (rec.el && rec.el.parentNode) rec.el.parentNode.removeChild(rec.el);
+    updateCount();
+  }
+
+  function clearAll() {
+    for (var i = active.length - 1; i >= 0; i--) {
+      var rec = active[i];
+      if (rec.timer) { clearTimeout(rec.timer); rec.timer = null; }
+      if (rec.el && rec.el.parentNode) rec.el.parentNode.removeChild(rec.el);
+    }
+    active.length = 0;
+    updateCount();
+  }
+
+  document.getElementById('pp-clear').addEventListener('click', clearAll);
+
+  // Fullscreen target = the stage
+  var ppWrap = document.getElementById('pp-stage');
+  var ppFsBtn = document.getElementById('pp-fullscreen');
+  if (ppFsBtn && ppWrap) {
+    function toggleFs() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (ppWrap.requestFullscreen) ppWrap.requestFullscreen().catch(function(){});
+        else if (ppWrap.webkitRequestFullscreen) ppWrap.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+    function fsLabel() {
+      var on = document.fullscreenElement || document.webkitFullscreenElement;
+      ppFsBtn.textContent = on ? 'Exit Fullscreen' : 'Fullscreen';
+    }
+    ppFsBtn.addEventListener('click', toggleFs);
+    document.addEventListener('fullscreenchange', function() { fsLabel(); beginFsCooldown(); });
+    document.addEventListener('webkitfullscreenchange', function() { fsLabel(); beginFsCooldown(); });
+  }
+
+  // Cooldown after fullscreen toggle (layout not stable yet)
+  var fsCooldown = false;
+  function beginFsCooldown() {
+    fsCooldown = true;
+    var clear = function() { fsCooldown = false; };
+    requestAnimationFrame(function() { requestAnimationFrame(clear); });
+    setTimeout(clear, 400);
+  }
+
+  var lastX = 0, lastY = 0, pauseTimer = null;
+  function handleMove(e) {
+    var r = stage.getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    var y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    if (pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; }
+    lastX = x; lastY = y;
+    pauseTimer = setTimeout(function () { spawn(lastX, lastY); pauseTimer = null; }, PAUSE);
+  }
+
+  stage.addEventListener('mousemove', handleMove);
+  stage.addEventListener('touchmove', function (e) { handleMove(e); e.preventDefault(); }, { passive: false });
+  stage.addEventListener('mouseleave', function () { if (pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden && pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; } });
+})();
+</script>
+</body>
+</html>
