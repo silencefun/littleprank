@@ -1,5 +1,7 @@
 # 🪟 Fake Windows Update
 
+[中文版本 / Chinese version](README.zh-CN.md)
+
 A simulated Windows 10/11 update screen. Pick a version (Win11 blue / Win10 dark), a stage, a speed, hit **Start**, and watch the percentage climb — it even "sticks" at 97% like the real thing. Pure HTML/CSS/JS, zero dependencies.
 
 ▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/system/fake-windows-update/

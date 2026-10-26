@@ -1,5 +1,7 @@
 # 📱 Fake iOS Update（假 iOS 更新）
 
+[English version / 英文版本](README.md)
+
 一个拟真的 iOS 系统更新界面，带动态进度环。纯 HTML/CSS/JS，零依赖。
 
 ▶ **在线演示（littleprank.com）：** https://littleprank.com/en/tools/mobile/fake-ios-update/

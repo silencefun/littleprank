@@ -1,5 +1,7 @@
 # 💻 Fake BSOD
 
+[中文版本 / Chinese version](README.zh-CN.md)
+
 A simulated Windows Blue Screen of Death. Pick an error type, hit **Start**, and watch it "crash" with a progress counter. Pure HTML/CSS/JS, zero dependencies — the QR code is pure CSS, no images.
 
 ▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/system/fake-bsod/

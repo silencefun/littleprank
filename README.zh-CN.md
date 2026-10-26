@@ -1,5 +1,7 @@
 # littleprank — 假屏幕与整蛊特效展示集
 
+[English version / 英文版本](README.md)
+
 从 [littleprank.com](https://littleprank.com)（一个好玩、无恶意的整蛊工具站）提取的一组**零依赖、纯前端**特效演示。
 
 每个子文件夹是某一类效果的独立展示，直接用浏览器打开文件夹内的 `index.html` 即可，无需构建、无需安装。

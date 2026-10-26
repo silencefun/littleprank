@@ -1,5 +1,7 @@
 # 📱 Fake iOS Update
 
+[中文版本 / Chinese version](README.zh-CN.md)
+
 A realistic iOS system-update screen with an animated progress ring. Pure HTML/CSS/JS, zero dependencies.
 
 ▶ **Live demo on littleprank.com:** https://littleprank.com/en/tools/mobile/fake-ios-update/

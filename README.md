@@ -1,5 +1,7 @@
 # littleprank — Fake Screen & Prank Effect Showcases
 
+[中文版本 / Chinese version](README.zh-CN.md)
+
 A collection of **self-contained, zero-dependency** HTML/CSS/JS demos extracted from [littleprank.com](https://littleprank.com) — a playful (and harmless) toolkit of fake screens, prank effects, and visual gags.
 
 Each subfolder is a standalone showcase of one effect category. Just open the `index.html` inside any folder in a browser — no build, no install.

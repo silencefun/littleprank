@@ -1,5 +1,7 @@
 # 🪟 假 Windows 更新
 
+[English version / 英文版本](README.md)
+
 模拟 Windows 10/11 更新界面。选择版本（Win11 蓝屏 / Win10 暗色）、阶段与速度，点击**开始**，进度数字会一路上涨——甚至会像真机一样卡在 97%。纯 HTML/CSS/JS，零依赖。
 
 ▶ **在线演示（littleprank.com）：** https://littleprank.com/en/tools/system/fake-windows-update/
